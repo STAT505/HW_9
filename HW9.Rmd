@@ -1,0 +1,78 @@
+---
+title: "HW 9"
+author: ""
+date: ""
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rstanarm)
+options(mc.cores = parallel::detectCores())
+```
+
+For this homework, recall the Garmin dataset from the midterm exam. 
+
+```{r}
+#Garmin <- read_csv("https://raw.githubusercontent.com/STAT505/2022midterm/main/Garmin_clean.csv") 
+Garmin <- read_csv("/Volumes/GoogleDrive/My Drive/Teaching/STAT505/Data/Garmin_clean.csv")
+
+```
+
+
+#### 1. (4 points) 
+
+Use the following model and conduct a posterior predictive check of your model / prior.
+
+```{r}
+bayes_1 <- stan_glm(heart_rate ~ speed_past_60_seconds * walk, data = Garmin)
+```
+
+Create a series of figures and comment on the differences between your predicted datasets and the data.
+
+#### 2. (4 points) 
+
+Using `AIC()`, and `lm()`, compare the following models:
+
+- `heart_rate ~ speed_past_60_seconds * walk`
+- `heart_rate ~ speed_past_60_seconds + walk`
+- `heart_rate ~ speed_past_60_seconds`
+- `heart_rate ~ walk`
+
+Which model do you prefer and why?
+
+#### 3. (4 points) 
+
+Using `loo()`, and `stan_glm()`, compare the following models:
+
+- `heart_rate ~ speed_past_60_seconds * walk`
+- `heart_rate ~ speed_past_60_seconds + walk`
+- `heart_rate ~ speed_past_60_seconds`
+- `heart_rate ~ walk`
+
+Which model do you prefer and why?
+
+#### 4. (4 points) 
+
+Critique the figure below and create a better way to illustrate how heart rate can be used to predict whether a runner was walking or running.
+```{r}
+Garmin_binary <- Garmin %>% mutate(walked = as.numeric(walk == "walk"), 
+                                   heart_rate_diff150 = heart_rate - 150)
+
+Garmin_binary %>% ggplot(aes(y = walked, x = heart_rate)) +
+  geom_smooth(method ='loess', formula = 'y~x', color = 'red') +
+  geom_smooth(method ='lm', formula = 'y~x', color = 'purple') + geom_point(alpha = .2)
+
+```
+
+#### 5. (4 points) 
+
+Summarize the model output below - feel free to choose whether you summarize the `glm` or `stan_glm` output.
+```{r}
+Garmin_binary %>% stan_glm(walked ~ heart_rate_diff150, family = 'binomial', data = ., refresh = 0) %>% print(digits = 2)
+
+Garmin_binary %>% glm(walked ~ heart_rate_diff150, family = 'binomial', data = .) %>% summary()
+
+```
+
