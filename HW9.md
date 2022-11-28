@@ -4,8 +4,7 @@ HW 9
 For this homework, recall the Garmin dataset from the midterm exam.
 
 ``` r
-#Garmin <- read_csv("https://raw.githubusercontent.com/STAT505/2022midterm/main/Garmin_clean.csv") 
-Garmin <- read_csv("/Volumes/GoogleDrive/My Drive/Teaching/STAT505/Data/Garmin_clean.csv")
+Garmin <- read_csv("https://raw.githubusercontent.com/STAT505/2022midterm/main/Garmin_clean.csv") 
 ```
 
     ## Rows: 797 Columns: 5
@@ -84,7 +83,7 @@ Garmin_binary %>% stan_glm(walked ~ heart_rate_diff150, family = 'binomial', dat
     ##  predictors:   2
     ## ------
     ##                    Median MAD_SD
-    ## (Intercept)        -3.03   0.20 
+    ## (Intercept)        -3.02   0.19 
     ## heart_rate_diff150 -0.08   0.01 
     ## 
     ## ------

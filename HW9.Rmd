@@ -15,9 +15,7 @@ options(mc.cores = parallel::detectCores())
 For this homework, recall the Garmin dataset from the midterm exam. 
 
 ```{r}
-#Garmin <- read_csv("https://raw.githubusercontent.com/STAT505/2022midterm/main/Garmin_clean.csv") 
-Garmin <- read_csv("/Volumes/GoogleDrive/My Drive/Teaching/STAT505/Data/Garmin_clean.csv")
-
+Garmin <- read_csv("https://raw.githubusercontent.com/STAT505/2022midterm/main/Garmin_clean.csv") 
 ```
 
 
